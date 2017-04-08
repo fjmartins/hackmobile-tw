@@ -20,6 +20,7 @@
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -41,11 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/register"/>
-        <Button
+            android:id="@+id/signin"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             style="@style/Base.Widget.AppCompat.Button.Colored"

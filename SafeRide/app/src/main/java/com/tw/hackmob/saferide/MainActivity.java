@@ -13,6 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.tw.hackmob.saferide.model.User;
+import com.tw.hackmob.saferide.utils.Session;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +47,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
+
+        User user = Session.getUser(this);
+
+        TextView name = (TextView) headerView.findViewById(R.id.name);
+        name.setText(user.getName());
+
+        TextView email = (TextView) headerView.findViewById(R.id.email);
+        email.setText(user.getEmail());
     }
 
     @Override

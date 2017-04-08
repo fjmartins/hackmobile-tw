@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.tw.hackmob.saferide.model.User;
+import com.tw.hackmob.saferide.utils.Data;
+import com.tw.hackmob.saferide.utils.Session;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -22,6 +26,14 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
 
+        User user = Data.getUser(this);
+        if (user != null) {
+            Session.setUser(user);
+
+            Intent i = new Intent(StartActivity.this, MainActivity.class);
+            startActivity(i);
+        }
+
         mSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -33,7 +45,8 @@ public class StartActivity extends AppCompatActivity {
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(StartActivity.this, RegisterActivity.class);
+                startActivity(i);
             }
         });
     }
