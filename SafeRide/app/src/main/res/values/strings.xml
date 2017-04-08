@@ -22,4 +22,5 @@
     <string name="carModel">Modelo do Carro</string>
     <string name="plate">Placa</string>
     <string name="color">Cor</string>
+    <string name="register_failed">Seu login falhou</string>
 </resources>
