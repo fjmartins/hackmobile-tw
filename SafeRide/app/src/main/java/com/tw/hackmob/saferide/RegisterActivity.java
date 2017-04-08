@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                     rideUser.setEmail(user.getEmail());
                     rideUser.setCarModel(mCarModel.getText().toString());
                     rideUser.setPlate(mPlate.getText().toString());
-                    rideUser.setColor(mPlate.getText().toString());
+                    rideUser.setColor(mColor.getText().toString());
 
                     mDatabase.getReference().child("users").child(user.getUid()).setValue(rideUser);
 
