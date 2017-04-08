@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HackathonMobileTW</string>
+    <string name="btn_send">Enviar</string>
 </resources>
