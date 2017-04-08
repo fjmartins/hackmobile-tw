@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "363109627082",
+    "firebase_url": "https://saferide-adebb.firebaseio.com",
+    "project_id": "saferide-adebb",
+    "storage_bucket": "saferide-adebb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363109627082:android:3457789b5581df83",
+        "android_client_info": {
+          "package_name": "com.tw.hackmob.saferide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363109627082-63pgdj89dlm7vigls6koue21k3o3grts.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsUTpIU95MNROFUhrt1lw7viAqN8qyH0U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
