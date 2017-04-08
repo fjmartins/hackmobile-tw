@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.navPedirCarona) {
             // Handle the camera action
         } else if (id == R.id.navAdicionarRota) {
-            Intent intent = new Intent(MainActivity.this, NewRouteActivity.class);
+            Intent intent = new Intent(MainActivity.this, MapActivity.class);
             startActivityForResult(intent, ADD_NEW_ROUTE);
         }
 
