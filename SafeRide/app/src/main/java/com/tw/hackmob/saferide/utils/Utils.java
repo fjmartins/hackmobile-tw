@@ -10,4 +10,8 @@ public class Utils {
     public static String getUUID() {
         return UUID.randomUUID().toString();
     }
+
+    public static String emailToUser(String email) {
+        return email.split("@")[0].replaceAll("[^\\w\\s\\-_]", "");
+    }
 }

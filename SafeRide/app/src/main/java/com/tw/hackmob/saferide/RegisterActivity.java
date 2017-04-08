@@ -66,7 +66,6 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mDatabase = FirebaseDatabase.getInstance();
-
         mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -82,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                     rideUser.setPlate(mPlate.getText().toString());
                     rideUser.setColor(mPlate.getText().toString());
 
-                    mDatabase.getReference().child("users").child(Utils.getUUID()).setValue(rideUser);
+                    mDatabase.getReference().child("users").child(user.getUid()).setValue(rideUser);
 
                     Data.saveUser(RegisterActivity.this, rideUser);
 
