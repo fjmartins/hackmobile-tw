@@ -5,6 +5,21 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
     <string name="register">Cadastrar</string>
     <string name="signin">Entrar</string>
+    <string name="title_activity_new_route">Map</string>
+
+    <string name="pedir_carona">Pedir Carona</string>
+    <string name="adicionar_rota">Adicionar Rota</string>
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="name">Nome</string>
+    <string name="back">Voltar</string>
+    <string name="offerRide">Você deseja oferecer carona?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="carModel">Modelo do Carro</string>
+    <string name="plate">Placa</string>
+    <string name="color">Cor</string>
 </resources>
