@@ -84,8 +84,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     mMap.addMarker(new MarkerOptions().position(latlngFrom));
                     mMap.addMarker(new MarkerOptions().position(latlngTo));
                 }
-                if(latlngFrom != null)
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latlngFrom));
+                if(latlngFrom != null) {
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlngFrom, 13));
+                }
             }
 
             @Override
