@@ -30,6 +30,11 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,12 +59,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, OnItemClickListener {
+        implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, OnItemClickListener {
 
     private static final int ADD_NEW_ROUTE = 50;
 
     private int REQUEST_LOCATION = 54;
     private GoogleApiClient mGoogleApiClient;
+    private GoogleMap mMap;
     private Place to;
     @BindView(R.id.forWhere)
     EditText mForWhere;
@@ -85,6 +91,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(MainActivity.this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -194,6 +204,8 @@ public class MainActivity extends AppCompatActivity
                 final Location loc = Utils.getCurrentLocation(MainActivity.this);
                 to = place;
 
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(to.getLatLng(), 13));
+
                 final List<Route> routes = new ArrayList<>();
 
                 FirebaseDatabase.getInstance().getReference().child("routes").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -229,7 +241,7 @@ public class MainActivity extends AppCompatActivity
                             }
                         }
 
-                        if(routes.size() > 0) {
+                        if (routes.size() > 0) {
                             Collections.reverse(routes);
 
                             mAdapter.setRoutes(routes);
@@ -273,11 +285,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(Route route) {
-        String[] params = new String[] {
+        String[] params = new String[]{
                 route.getOwner().getToken(),
                 "Pedido de Carona",
                 Session.getUser(this).getName() + " está pedindo uma carona",
-                "requestRoute" };
+                "requestRoute"};
 
         Request request = new Request();
         request.setUid(Utils.getUUID());
@@ -298,5 +310,28 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onItemLongClick(View view, Route route) {
         return false;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+        mMap.setBuildingsEnabled(false);
+
+        Location loc = Utils.getCurrentLocation(MainActivity.this);
+        if (loc != null) {
+            LatLng ll = new LatLng(loc.getLatitude(), loc.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 13));
+        }
     }
 }
