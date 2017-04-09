@@ -1,8 +1,11 @@
 package com.tw.hackmob.saferide.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.tw.hackmob.saferide.R;
 import com.tw.hackmob.saferide.holder.RouteHolder;
 import com.tw.hackmob.saferide.listener.OnItemClickListener;
 import com.tw.hackmob.saferide.model.Route;
@@ -26,7 +29,8 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteHolder> {
 
     @Override
     public RouteHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.route_adapter, parent, false);
+        return new RouteHolder(view);
     }
 
     @Override
@@ -37,5 +41,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteHolder> {
     @Override
     public int getItemCount() {
         return mList.size();
+    }
+
+    public void setRoutes(List<Route> routes) {
+        this.mList = routes;
     }
 }

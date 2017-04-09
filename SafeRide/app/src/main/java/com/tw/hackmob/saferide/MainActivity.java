@@ -11,8 +11,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -31,6 +32,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.tw.hackmob.saferide.adapter.RouteAdapter;
+import com.tw.hackmob.saferide.listener.OnItemClickListener;
 import com.tw.hackmob.saferide.model.Location;
 import com.tw.hackmob.saferide.model.Route;
 import com.tw.hackmob.saferide.model.User;
@@ -38,11 +41,15 @@ import com.tw.hackmob.saferide.utils.Data;
 import com.tw.hackmob.saferide.utils.Session;
 import com.tw.hackmob.saferide.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, OnItemClickListener {
 
     private static final int ADD_NEW_ROUTE = 50;
 
@@ -51,6 +58,11 @@ public class MainActivity extends AppCompatActivity
     private Place to;
     @BindView(R.id.forWhere)
     EditText mForWhere;
+
+    private RouteAdapter mAdapter;
+
+    @BindView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
@@ -106,6 +118,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        mAdapter = new RouteAdapter(new ArrayList<Route>(), MainActivity.this);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setAdapter(mAdapter);
         requestLocation();
     }
 
@@ -157,8 +172,10 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 final Place place = PlaceAutocomplete.getPlace(this, data);
-                to = place;
                 final Location loc = Utils.getCurrentLocation(MainActivity.this);
+                to = place;
+
+                final List<Route> routes = new ArrayList<>();
 
                 FirebaseDatabase.getInstance().getReference().child("routes").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -186,10 +203,19 @@ public class MainActivity extends AppCompatActivity
                                     bestRoute = route;
                                     bestFrom = distanceFrom[0];
                                     bestTo = distanceTo[0];
+
+                                    routes.add(bestRoute);
                                 }
                             } else { //Outside
 
                             }
+                        }
+
+                        if(routes.size() > 0) {
+                            Collections.reverse(routes);
+
+                            mAdapter.setRoutes(routes);
+                            mAdapter.notifyDataSetChanged();
                         }
                     }
 
@@ -222,4 +248,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onItemClick(Route route) {
+
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, Route route) {
+        return false;
+    }
 }

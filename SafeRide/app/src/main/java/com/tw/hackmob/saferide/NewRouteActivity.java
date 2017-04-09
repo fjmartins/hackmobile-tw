@@ -114,7 +114,7 @@ public class NewRouteActivity extends AppCompatActivity implements TimePickerDia
                 User user = Session.getUser(NewRouteActivity.this);
 
                 Route r = new Route();
-                r.setOwner(user.getUid());
+                r.setOwner(user);
                 r.setTime(tietHora.getText().toString());
                 r.setFrom(new Location(from.getLatLng().latitude, from.getLatLng().longitude, from.getName().toString(), from.getAddress().toString()));
                 r.setTo(new Location(to.getLatLng().latitude, to.getLatLng().longitude, to.getName().toString(), to.getAddress().toString()));

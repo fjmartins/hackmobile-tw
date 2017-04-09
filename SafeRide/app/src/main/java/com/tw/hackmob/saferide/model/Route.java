@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class Route implements Serializable {
 
-    private String owner;
+    private User owner;
     private String time;
     private Location from;
     private Location to;
@@ -43,11 +43,11 @@ public class Route implements Serializable {
         this.to = to;
     }
 
-    public String getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 

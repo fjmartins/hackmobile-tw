@@ -9,6 +9,7 @@ import com.tw.hackmob.saferide.listener.OnItemClickListener;
 import com.tw.hackmob.saferide.model.Route;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by fjmartins on 4/9/2017.
@@ -30,10 +31,15 @@ public class RouteHolder extends RecyclerView.ViewHolder {
 
     public RouteHolder(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
     }
 
     public void bind(final Route route, final OnItemClickListener listener) {
-        
+        txtFrom.setText(route.getFrom().getName());
+        txtTo.setText(route.getTo().getName());
+        txtTime.setText(route.getTime());
+        txtRouteDriver.setText(route.getOwner().getName());
+
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
