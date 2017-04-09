@@ -19,6 +19,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tw.hackmob.saferide.model.Location;
 import com.tw.hackmob.saferide.model.Route;
+import com.tw.hackmob.saferide.model.User;
 import com.tw.hackmob.saferide.utils.Session;
 import com.tw.hackmob.saferide.utils.Utils;
 
@@ -105,8 +106,10 @@ public class NewRouteActivity extends AppCompatActivity implements TimePickerDia
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                User user = Session.getUser(NewRouteActivity.this);
+
                 Route r = new Route();
-                r.setOwner(Session.getUser(NewRouteActivity.this).getUid());
+                r.setOwner(user.getUid());
                 r.setTime(tietHora.getText().toString());
                 r.setFrom(new Location(from.getLatLng().latitude, from.getLatLng().longitude));
                 r.setTo(new Location(to.getLatLng().latitude, to.getLatLng().longitude));
