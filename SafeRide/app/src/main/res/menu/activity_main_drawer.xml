@@ -10,6 +10,11 @@
             android:id="@+id/navAdicionarRota"
             android:icon="@drawable/ic_add_location_black_24dp"
             android:title="@string/adicionar_rota" />
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_input_black_24dp"
+            android:title="@string/logout" />
     </group>
 
 </menu>

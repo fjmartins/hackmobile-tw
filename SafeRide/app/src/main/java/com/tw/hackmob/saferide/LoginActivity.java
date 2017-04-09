@@ -63,7 +63,9 @@ public class LoginActivity extends AppCompatActivity {
                             Data.saveUser(LoginActivity.this, user);
 
                             Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
+                            finish();
                         }
 
                         @Override

@@ -31,7 +31,9 @@ public class StartActivity extends AppCompatActivity {
             Session.setUser(user);
 
             Intent i = new Intent(StartActivity.this, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
+            finish();
         }
 
         mSignin.setOnClickListener(new View.OnClickListener() {

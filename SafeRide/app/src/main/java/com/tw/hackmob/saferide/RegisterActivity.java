@@ -87,7 +87,9 @@ public class RegisterActivity extends AppCompatActivity {
                     Data.saveUser(RegisterActivity.this, rideUser);
 
                     Intent i = new Intent(RegisterActivity.this, MainActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
+                    finish();
                 }
             }
         };

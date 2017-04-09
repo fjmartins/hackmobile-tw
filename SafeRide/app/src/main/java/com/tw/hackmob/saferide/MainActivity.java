@@ -25,7 +25,9 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.firebase.auth.FirebaseAuth;
 import com.tw.hackmob.saferide.model.User;
+import com.tw.hackmob.saferide.utils.Data;
 import com.tw.hackmob.saferide.utils.Session;
 
 import butterknife.BindView;
@@ -139,6 +141,15 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.navAdicionarRota) {
             Intent intent = new Intent(MainActivity.this, MapActivity.class);
             startActivityForResult(intent, ADD_NEW_ROUTE);
+        } else if (id == R.id.logout) {
+            FirebaseAuth.getInstance().signOut();
+
+            Data.saveUser(this, null);
+
+            Intent i = new Intent(MainActivity.this, StartActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
