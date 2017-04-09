@@ -78,7 +78,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void readAll() {
-        mDatabase.getReference().child("routes").orderByChild("owner").equalTo(Session.getUser(this).getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.getReference().child("routes").orderByChild("ownerUid").equalTo(Session.getUser(this).getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 //List<Route> routes = new ArrayList<Route>();

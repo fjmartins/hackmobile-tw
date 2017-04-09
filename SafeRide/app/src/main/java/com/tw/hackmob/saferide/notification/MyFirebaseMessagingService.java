@@ -11,6 +11,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.tw.hackmob.saferide.MainActivity;
 import com.tw.hackmob.saferide.R;
+import com.tw.hackmob.saferide.RequestRidesActivity;
 
 /**
  * Created by phgm on 09/04/2017.
@@ -28,10 +29,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
 
         // Create Notification
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = null;
+        if (remoteMessage.getNotification().getTag().equals("requestRoute")) {
+            intent = new Intent(this, RequestRidesActivity.class);
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1410,
-                intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1410, intent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder notificationBuilder = new
                 NotificationCompat.Builder(this)

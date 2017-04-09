@@ -33,8 +33,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tw.hackmob.saferide.adapter.RouteAdapter;
+import com.tw.hackmob.saferide.async.NotificationAsync;
 import com.tw.hackmob.saferide.listener.OnItemClickListener;
 import com.tw.hackmob.saferide.model.Location;
+import com.tw.hackmob.saferide.model.Request;
 import com.tw.hackmob.saferide.model.Route;
 import com.tw.hackmob.saferide.model.User;
 import com.tw.hackmob.saferide.utils.Data;
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity
     EditText mForWhere;
 
     private RouteAdapter mAdapter;
+
+    private FirebaseDatabase mDatabase;
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -99,6 +103,8 @@ public class MainActivity extends AppCompatActivity
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(this, this)
                 .build();
+
+        mDatabase = FirebaseDatabase.getInstance();
 
         mForWhere.setFocusable(false);
         mForWhere.setFocusableInTouchMode(false);
@@ -250,7 +256,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(Route route) {
+        String[] params = new String[] {
+                route.getOwner().getToken(),
+                "Pedido de Carona",
+                Session.getUser(this).getName() + " está pedindo uma carona",
+                "requestRoute" };
 
+        Request request = new Request();
+        request.setUid(Utils.getUUID());
+        request.setRoute(route);
+        request.setUserOwner(route.getOwner());
+        request.setUserOwnerUid(route.getOwnerUid());
+        request.setUserRequest(Session.getUser(this));
+
+        mDatabase.getReference().child("requests").child(request.getUid()).setValue(request);
+
+        new NotificationAsync(this).execute(params);
     }
 
     @Override

@@ -46,6 +46,7 @@ public class NotificationAsync extends AsyncTask<String[], Void, Void> {
             JSONObject notification = new JSONObject();
             notification.put("title", strings[0][1]);
             notification.put("body", strings[0][2]);
+            notification.put("tag", strings[0][3]);
 
             JSONObject json = new JSONObject();
             json.put("to", strings[0][0]);
