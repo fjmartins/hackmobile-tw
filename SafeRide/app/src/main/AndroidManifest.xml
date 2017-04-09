@@ -63,7 +63,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MapActivity" />
         </activity>
-        <activity android:name=".RequestRidesActivity" android:label="@string/pedir_carona"></activity>
+        <activity android:name=".RequestRidesActivity" android:label="Pedidos de Carona"></activity>
     </application>
 
 </manifest>
