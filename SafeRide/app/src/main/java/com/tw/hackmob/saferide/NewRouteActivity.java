@@ -116,8 +116,8 @@ public class NewRouteActivity extends AppCompatActivity implements TimePickerDia
                 Route r = new Route();
                 r.setOwner(user.getUid());
                 r.setTime(tietHora.getText().toString());
-                r.setFrom(new Location(from.getLatLng().latitude, from.getLatLng().longitude));
-                r.setTo(new Location(to.getLatLng().latitude, to.getLatLng().longitude));
+                r.setFrom(new Location(from.getLatLng().latitude, from.getLatLng().longitude, from.getName().toString(), from.getAddress().toString()));
+                r.setTo(new Location(to.getLatLng().latitude, to.getLatLng().longitude, to.getName().toString(), to.getAddress().toString()));
 
                 try {
                     FirebaseDatabase.getInstance().getReference().child("routes").child(Utils.getUUID()).setValue(r);

@@ -12,6 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -73,9 +74,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onActivityResult(requestCode, resultCode, data);
 
         Route r = (Route) data.getSerializableExtra("route");
-        LatLng latlngFrom = getLocation(r.getFrom());
-        LatLng latlngTo = getLocation(r.getTo());
-        drawRoute(r, latlngFrom, latlngTo);
+        drawRoute(r, r.getFrom(), r.getTo());
     }
 
     public void readAll() {
@@ -85,12 +84,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 //List<Route> routes = new ArrayList<Route>();
 
                 Route route;
-                LatLng latlngFrom = null, latlngTo = null;
+                LatLng latlngFrom = null;
                 for (DataSnapshot routeSnapshot : snapshot.getChildren()) {
                     route = routeSnapshot.getValue(Route.class);
                     latlngFrom = getLocation(route.getFrom());
-                    latlngTo = getLocation(route.getTo());
-                    drawRoute(route, latlngFrom, latlngTo);
+
+                    drawRoute(route, route.getFrom(), route.getTo());
                 }
                 if(latlngFrom != null) {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlngFrom, 13));
@@ -106,10 +105,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-    private void drawRoute(Route route, LatLng latlngFrom, LatLng latlngTo) {
+    private void drawRoute(Route route, Location locationFrom, Location locationTo) {
         new DirectionAsync(MapActivity.this).execute(route);
-        mMap.addMarker(new MarkerOptions().position(latlngFrom));
-        mMap.addMarker(new MarkerOptions().position(latlngTo));
+
+        LatLng latLngFrom = new LatLng(locationFrom.getLatitude(), locationFrom.getLongitude());
+        LatLng latLngTo = new LatLng(locationTo.getLatitude(), locationTo.getLongitude());
+
+        mMap.addMarker(new MarkerOptions().position(latLngFrom).title(locationFrom.getName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        mMap.addMarker(new MarkerOptions().position(latLngTo).title(locationTo.getName()));
     }
 
     private LatLng getLocation(Location from){
@@ -220,11 +223,5 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
         Polyline polylin = mMap.addPolyline(rectLine);
-        mMap.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
-            @Override
-            public void onPolylineClick(Polyline polyline) {
-
-            }
-        });
     }
 }

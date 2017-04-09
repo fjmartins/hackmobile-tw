@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 public class Location implements Serializable {
 
+    private String name;
+    private String address;
     private double latitude;
     private double longitude;
 
@@ -17,6 +19,13 @@ public class Location implements Serializable {
     public Location(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public Location(double latitude, double longitude, String name, String address) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.name = name;
+        this.address = address;
     }
 
     public double getLatitude() {
@@ -33,5 +42,21 @@ public class Location implements Serializable {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
