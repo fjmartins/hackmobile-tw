@@ -1,5 +1,6 @@
 package com.tw.hackmob.saferide;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mDatabase;
 
+    private ProgressDialog mLoading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
 
                             Data.saveUser(LoginActivity.this, user);
 
+                            mLoading.dismiss();
+
                             Intent i = new Intent(LoginActivity.this, MainActivity.class);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
@@ -70,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
+                            mLoading.dismiss();
                         }
                     });
                 }
@@ -80,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         mSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mLoading = ProgressDialog.show(LoginActivity.this, null, getString(R.string.loading), true);
                 mAuth.signInWithEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString())
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override

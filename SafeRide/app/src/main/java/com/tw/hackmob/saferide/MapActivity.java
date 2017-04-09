@@ -68,6 +68,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         readAll();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Route r = (Route) data.getSerializableExtra("route");
+        LatLng latlngFrom = getLocation(r.getFrom());
+        LatLng latlngTo = getLocation(r.getTo());
+        drawRoute(r, latlngFrom, latlngTo);
+    }
+
     public void readAll() {
         mDatabase.getReference().child("routes").orderByChild("owner").equalTo(Session.getUser(this).getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -75,14 +85,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 //List<Route> routes = new ArrayList<Route>();
 
                 Route route;
-                LatLng latlngFrom = null, latlngTo;
+                LatLng latlngFrom = null, latlngTo = null;
                 for (DataSnapshot routeSnapshot : snapshot.getChildren()) {
                     route = routeSnapshot.getValue(Route.class);
-                    new DirectionAsync(MapActivity.this).execute(route);
                     latlngFrom = getLocation(route.getFrom());
                     latlngTo = getLocation(route.getTo());
-                    mMap.addMarker(new MarkerOptions().position(latlngFrom));
-                    mMap.addMarker(new MarkerOptions().position(latlngTo));
+                    drawRoute(route, latlngFrom, latlngTo);
                 }
                 if(latlngFrom != null) {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlngFrom, 13));
@@ -98,6 +106,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
+    private void drawRoute(Route route, LatLng latlngFrom, LatLng latlngTo) {
+        new DirectionAsync(MapActivity.this).execute(route);
+        mMap.addMarker(new MarkerOptions().position(latlngFrom));
+        mMap.addMarker(new MarkerOptions().position(latlngTo));
+    }
 
     private LatLng getLocation(Location from){
         return new LatLng(from.getLatitude(), from.getLongitude());
@@ -200,7 +213,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
 
         ArrayList<LatLng> directionPoint = getDirection(document);
-        PolylineOptions rectLine = new PolylineOptions().width(3).color(color);
+        PolylineOptions rectLine = new PolylineOptions().width(10).color(color);
 
         for (int i = 0; i < directionPoint.size(); i++) {
             rectLine.add(directionPoint.get(i));

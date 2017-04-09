@@ -1,6 +1,7 @@
 package com.tw.hackmob.saferide;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,6 +50,8 @@ public class NewRouteActivity extends AppCompatActivity implements TimePickerDia
 
     private final int FROM = 2;
     private final int TO = 3;
+
+    private ProgressDialog mLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +109,8 @@ public class NewRouteActivity extends AppCompatActivity implements TimePickerDia
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mLoading = ProgressDialog.show(NewRouteActivity.this, null, getString(R.string.loading), true);
+
                 User user = Session.getUser(NewRouteActivity.this);
 
                 Route r = new Route();
@@ -120,6 +125,11 @@ public class NewRouteActivity extends AppCompatActivity implements TimePickerDia
                     Log.e("Erro", e.getMessage());
                 }
 
+                mLoading.dismiss();
+
+                Intent i = new Intent();
+                i.putExtra("route", r);
+                setResult(Activity.RESULT_OK, i);
                 finish();
             }
         });

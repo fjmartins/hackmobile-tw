@@ -22,6 +22,9 @@ public class Data {
         String json = new Gson().toJson(user);
         editor.putString(KEY_USER, json);
         editor.apply();
+
+        if (user == null)
+            Session.setUser(null);
     }
 
     public static User getUser(Context activity) {

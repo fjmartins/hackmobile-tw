@@ -2,13 +2,14 @@ package com.tw.hackmob.saferide.model;
 
 import android.graphics.Color;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  * Created by fjmartins on 4/8/2017.
  */
 
-public class Route {
+public class Route implements Serializable {
 
     private String owner;
     private String time;

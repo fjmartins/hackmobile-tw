@@ -30,4 +30,5 @@
     <string name="login_failed">Seu login falhou</string>
     <string name="forWhere">Para onde?</string>
     <string name="logout">Sair</string>
+    <string name="loading">Carregando...</string>
 </resources>
