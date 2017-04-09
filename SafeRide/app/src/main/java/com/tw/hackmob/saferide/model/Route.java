@@ -11,6 +11,7 @@ import java.util.Random;
 
 public class Route implements Serializable {
 
+    private String ownerUid;
     private User owner;
     private String time;
     private Location from;
@@ -65,5 +66,13 @@ public class Route implements Serializable {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public String getOwnerUid() {
+        return ownerUid;
+    }
+
+    public void setOwnerUid(String ownerUid) {
+        this.ownerUid = ownerUid;
     }
 }
