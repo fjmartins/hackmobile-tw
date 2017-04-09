@@ -23,6 +23,6 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@drawable/googleg_standard_color_18" />
+        android:src="@drawable/ic_add_white_24dp" />
 
 </FrameLayout>
