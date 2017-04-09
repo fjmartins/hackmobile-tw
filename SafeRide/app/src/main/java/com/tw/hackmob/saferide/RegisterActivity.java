@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tw.hackmob.saferide.model.User;
 import com.tw.hackmob.saferide.utils.Data;
+import com.tw.hackmob.saferide.utils.Session;
 import com.tw.hackmob.saferide.utils.Utils;
 
 import butterknife.BindView;
@@ -84,6 +85,8 @@ public class RegisterActivity extends AppCompatActivity {
                     rideUser.setPlate(mPlate.getText().toString());
                     rideUser.setColor(mColor.getText().toString());
                     rideUser.setUid(user.getUid());
+                    if (Session.sToken != null)
+                        rideUser.setToken(Session.sToken);
 
                     mDatabase.getReference().child("users").child(user.getUid()).setValue(rideUser);
 

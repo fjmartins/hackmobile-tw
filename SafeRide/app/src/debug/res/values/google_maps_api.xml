@@ -23,4 +23,6 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyBT--stS5SNWkerVlC_8YoIn-tFK9t-37M
     </string>
+
+    <string name="firebase_server">key=AAAAVIsFNMo:APA91bHyVwUaUmlWyVyZFUmi4Yj7tloE7xwW1FeKkr4-oG76Sb7EsRmkBU9AiowdhPC03_29uzOHJWewP0tNfJO0c6P_5knjbRslkntfvdfF2mLgMiVbfjez1ij4aEJ3rxQUQBa50BWv</string>
 </resources>

@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tw.hackmob.saferide.model.User;
 import com.tw.hackmob.saferide.utils.Data;
+import com.tw.hackmob.saferide.utils.Session;
 import com.tw.hackmob.saferide.utils.Utils;
 
 import butterknife.BindView;
@@ -62,6 +63,14 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
+
+                            if (Session.sToken != null) {
+                                user.setToken(Session.sToken);
+                                Data.saveUser(LoginActivity.this, user);
+                                Session.setUser(user);
+
+                                mDatabase.getReference().child("users").child(user.getUid()).child("token").setValue(Session.sToken);
+                            }
 
                             Data.saveUser(LoginActivity.this, user);
 

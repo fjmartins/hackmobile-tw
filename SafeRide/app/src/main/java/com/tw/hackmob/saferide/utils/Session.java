@@ -10,6 +10,7 @@ import com.tw.hackmob.saferide.model.User;
 
 public class Session {
     private static User sUser;
+    public static String sToken;
 
     public static void setUser(User user) {
         sUser = user;
