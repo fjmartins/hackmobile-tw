@@ -9,6 +9,7 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
         android:minHeight="125dp"
         card_view:cardCornerRadius="0dp">
 
@@ -23,8 +24,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_alignParentLeft="true"
+                android:textStyle="bold"
                 android:text="Paola"
-                android:textSize="12sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/txtTime"
@@ -33,6 +35,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"
+                android:textStyle="italic"
+                android:textSize="15sp"
                 android:text="09:59">
             </TextView>
 
@@ -41,7 +45,7 @@
                 android:id="@+id/txtFrom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
                 android:text="Recife Brazil"
@@ -50,19 +54,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginLeft="10dp"
                 android:layout_centerInParent="true"
                 android:text=">"
-                android:textSize="12sp" />
-
+                android:textSize="15sp" />
 
 
             <TextView
                 android:id="@+id/txtTo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginRight="10dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
