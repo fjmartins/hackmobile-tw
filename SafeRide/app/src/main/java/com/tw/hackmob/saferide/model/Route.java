@@ -7,7 +7,7 @@ package com.tw.hackmob.saferide.model;
 public class Route {
 
     private String owner;
-    private long time;
+    private String time;
     private Location from;
     private Location to;
 
@@ -42,11 +42,11 @@ public class Route {
         this.owner = owner;
     }
 
-    public long getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }

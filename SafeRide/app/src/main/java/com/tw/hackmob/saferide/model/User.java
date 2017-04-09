@@ -5,6 +5,8 @@ package com.tw.hackmob.saferide.model;
  */
 
 public class User {
+
+    private String uid;
     private String name;
     private String email;
     private String carModel;
@@ -49,5 +51,13 @@ public class User {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

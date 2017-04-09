@@ -7,20 +7,32 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TimePicker;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.firebase.database.FirebaseDatabase;
+import com.tw.hackmob.saferide.model.Location;
+import com.tw.hackmob.saferide.model.Route;
+import com.tw.hackmob.saferide.utils.Session;
+import com.tw.hackmob.saferide.utils.Utils;
 
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NewRouteActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener{
+
+    Place from;
+    Place to;
 
     @BindView(R.id.from)
     TextInputEditText tietFrom;
@@ -31,9 +43,11 @@ public class NewRouteActivity extends AppCompatActivity implements TimePickerDia
     @BindView(R.id.hora)
     TextInputEditText tietHora;
 
+    @BindView(R.id.register)
+    Button register;
+
     private final int FROM = 2;
     private final int TO = 3;
-    private final int TIME = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +101,25 @@ public class NewRouteActivity extends AppCompatActivity implements TimePickerDia
                 mTimerPickerDialog.show();
             }
         });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Route r = new Route();
+                r.setOwner(Session.getUser(NewRouteActivity.this).getUid());
+                r.setTime(tietHora.getText().toString());
+                r.setFrom(new Location(from.getLatLng().latitude, from.getLatLng().longitude));
+                r.setTo(new Location(to.getLatLng().latitude, to.getLatLng().longitude));
+
+                try {
+                    FirebaseDatabase.getInstance().getReference().child("routes").child(Utils.getUUID()).setValue(r);
+                } catch (Exception e) {
+                    Log.e("Erro", e.getMessage());
+                }
+
+                finish();
+            }
+        });
     }
 
     @Override
@@ -98,9 +131,11 @@ public class NewRouteActivity extends AppCompatActivity implements TimePickerDia
             switch (requestCode) {
                 case FROM:
                     tietFrom.setText(place.getAddress());
+                    from = place;
                     break;
                 case TO:
                     tietTo.setText(place.getAddress());
+                    to = place;
                     break;
             }
         }
