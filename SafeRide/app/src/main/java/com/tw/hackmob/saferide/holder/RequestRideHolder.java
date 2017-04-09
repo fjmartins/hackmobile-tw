@@ -1,5 +1,8 @@
 package com.tw.hackmob.saferide.holder;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -38,28 +41,49 @@ public class RequestRideHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.accept)
     Button mAccept;
 
+    @BindView(R.id.call)
+    Button mCall;
+
     public RequestRideHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
 
-    public void bind(final Request request, final OnItemRequestListener rejectListener, final OnItemRequestListener acceptListener) {
+    public void bind(final Activity activity, final Request request, final OnItemRequestListener rejectListener, final OnItemRequestListener acceptListener) {
         txtFrom.setText(request.getRoute().getFrom().getName());
         txtTo.setText(request.getRoute().getTo().getName());
         txtTime.setText(request.getRoute().getTime());
         txtRouteDriver.setText(request.getUserRequest().getName());
 
-        mReject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rejectListener.onItemClick(request);
-            }
-        });
-        mAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                acceptListener.onItemClick(request);
-            }
-        });
+        if (request.getStatus() == 0) {
+            mReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    rejectListener.onItemClick(request);
+                }
+            });
+            mAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    acceptListener.onItemClick(request);
+                }
+            });
+
+            mReject.setVisibility(View.VISIBLE);
+            mAccept.setVisibility(View.VISIBLE);
+            mCall.setVisibility(View.GONE);
+        } else {
+            mReject.setVisibility(View.GONE);
+            mAccept.setVisibility(View.GONE);
+            mCall.setVisibility(View.VISIBLE);
+            mCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent1 = new Intent(Intent.ACTION_DIAL);
+                    intent1.setData(Uri.parse("tel:" + request.getUserRequest().getPhone()));
+                    activity.startActivity(intent1);
+                }
+            });
+        }
     }
 }

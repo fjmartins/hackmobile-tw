@@ -15,6 +15,7 @@ public class User implements Serializable {
     private String plate;
     private String color;
     private String token;
+    private String phone;
 
     public String getName() {
         return name;
@@ -70,5 +71,13 @@ public class User implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

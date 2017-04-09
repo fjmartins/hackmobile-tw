@@ -44,12 +44,13 @@ public class RequestRidesActivity extends AppCompatActivity {
         mDatabase.getReference().child("requests").orderByChild("userOwnerUid").equalTo(Session.getUser(this).getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mRequests.removeAll(mRequests);
                 for (DataSnapshot requestSnapshop: dataSnapshot.getChildren()) {
                     Request request = requestSnapshop.getValue(Request.class);
-                    if (request.getStatus() == 0)
+                    if (request.getStatus() != 2)
                         mRequests.add(request);
                 }
-
+                mAdapter.setRequests(mRequests);
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -59,7 +60,7 @@ public class RequestRidesActivity extends AppCompatActivity {
             }
         });
 
-        mAdapter = new RequestRideAdapter(mRequests, new OnItemRequestListener() {
+        mAdapter = new RequestRideAdapter(this, mRequests, new OnItemRequestListener() {
             @Override
             public void onItemClick(Request request) {
                 request.setStatus(1);
@@ -69,15 +70,9 @@ public class RequestRidesActivity extends AppCompatActivity {
                         request.getUserRequest().getToken(),
                         "Pedido de Carona",
                         request.getUserOwner().getName() + " aceitou seu pedido de carona!",
-                        "acceptRequest"
+                        "acceptRequest",
+                        request.getUserOwner().getPhone()
                 };
-
-                for (int i = 0; i < mRequests.size(); i++) {
-                    if (mRequests.get(i).getUid().equals(request.getUid())) {
-                        mRequests.remove(i);
-                        break;
-                    }
-                }
 
                 new NotificationAsync(RequestRidesActivity.this).execute(params);
             }

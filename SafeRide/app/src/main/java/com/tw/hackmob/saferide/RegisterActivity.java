@@ -36,6 +36,9 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.password)
     EditText mPassword;
 
+    @BindView(R.id.phone)
+    EditText mPhone;
+
     @BindView(R.id.checkYes)
     RadioButton mCheckYes;
 
@@ -81,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                     User rideUser = new User();
                     rideUser.setName(mName.getText().toString());
                     rideUser.setEmail(user.getEmail());
+                    rideUser.setPhone(mPhone.getText().toString());
                     rideUser.setCarModel(mCarModel.getText().toString());
                     rideUser.setPlate(mPlate.getText().toString());
                     rideUser.setColor(mColor.getText().toString());

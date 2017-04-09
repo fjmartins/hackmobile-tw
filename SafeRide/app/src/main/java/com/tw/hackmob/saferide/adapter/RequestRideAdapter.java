@@ -1,5 +1,6 @@
 package com.tw.hackmob.saferide.adapter;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +26,14 @@ public class RequestRideAdapter extends RecyclerView.Adapter<RequestRideHolder> 
     private OnItemRequestListener mListenerAccept, mListenerReject;
     private List<Request> mList = new ArrayList<>();
 
-    public RequestRideAdapter(List<Request> list, OnItemRequestListener listenerAccept, OnItemRequestListener listenerReject) {
+    private Activity mActivity;
+
+    public RequestRideAdapter(Activity activity, List<Request> list, OnItemRequestListener listenerAccept, OnItemRequestListener listenerReject) {
         mList = list;
         mListenerAccept = listenerAccept;
         mListenerReject = listenerReject;
+
+        mActivity = activity;
     }
 
     @Override
@@ -39,9 +44,12 @@ public class RequestRideAdapter extends RecyclerView.Adapter<RequestRideHolder> 
 
     @Override
     public void onBindViewHolder(RequestRideHolder holder, int position) {
-        holder.bind(mList.get(position), mListenerReject, mListenerAccept);
+        holder.bind(mActivity, mList.get(position), mListenerReject, mListenerAccept);
     }
 
+    public void setRequests(List<Request> requests) {
+        mList = requests;
+    }
     @Override
     public int getItemCount() {
         return mList.size();
