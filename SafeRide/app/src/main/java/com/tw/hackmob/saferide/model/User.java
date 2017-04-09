@@ -1,10 +1,12 @@
 package com.tw.hackmob.saferide.model;
 
+import java.io.Serializable;
+
 /**
  * Created by fjmartins on 4/8/2017.
  */
 
-public class User {
+public class User implements Serializable {
 
     private String uid;
     private String name;

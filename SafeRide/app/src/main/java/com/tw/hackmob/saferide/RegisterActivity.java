@@ -99,7 +99,8 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(i);
                     finish();
                 } else {
-                    mLoading.dismiss();
+                    if (mLoading != null)
+                        mLoading.dismiss();
                 }
             }
         };
@@ -128,6 +129,9 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (!task.isSuccessful()) {
+                                    if (mLoading != null)
+                                        mLoading.dismiss();
+
                                     Toast.makeText(RegisterActivity.this, R.string.register_failed, Toast.LENGTH_SHORT).show();
                                 }
                             }
