@@ -7,6 +7,7 @@ package com.tw.hackmob.saferide.model;
 public class Request {
     private String uid;
     private User userRequest;
+    private String userRequestUid;
     private User userOwner;
     private String userOwnerUid;
     private Route route;
@@ -58,5 +59,13 @@ public class Request {
 
     public void setUserOwnerUid(String userOwnerUid) {
         this.userOwnerUid = userOwnerUid;
+    }
+
+    public String getUserRequestUid() {
+        return userRequestUid;
+    }
+
+    public void setUserRequestUid(String userRequestUid) {
+        this.userRequestUid = userRequestUid;
     }
 }

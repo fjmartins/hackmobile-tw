@@ -8,6 +8,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -49,19 +50,20 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MapActivity">
+
+        <activity android:name=".LoginActivity"  />
+        <activity android:name=".RegisterActivity" android:label="Cadastro" />
+        <activity android:name=".MapActivity" android:label="Minhas Rotas">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".NewRouteActivity">
+        <activity android:name=".NewRouteActivity" android:label="Nova Rota">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MapActivity" />
         </activity>
-        <activity android:name=".RequestRidesActivity"></activity>
+        <activity android:name=".RequestRidesActivity" android:label="@string/pedir_carona"></activity>
     </application>
 
 </manifest>

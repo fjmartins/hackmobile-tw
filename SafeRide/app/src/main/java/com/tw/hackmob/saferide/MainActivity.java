@@ -1,10 +1,13 @@
 package com.tw.hackmob.saferide;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -61,6 +64,9 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.forWhere)
     EditText mForWhere;
 
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
+
     private RouteAdapter mAdapter;
 
     private FirebaseDatabase mDatabase;
@@ -69,6 +75,8 @@ public class MainActivity extends AppCompatActivity
     RecyclerView mRecyclerView;
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+
+    private ProgressDialog mLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +188,8 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                mLoading = ProgressDialog.show(this, null, getString(R.string.loading), true);
+
                 final Place place = PlaceAutocomplete.getPlace(this, data);
                 final Location loc = Utils.getCurrentLocation(MainActivity.this);
                 to = place;
@@ -216,7 +226,6 @@ public class MainActivity extends AppCompatActivity
                                     routes.add(bestRoute);
                                 }
                             } else { //Outside
-
                             }
                         }
 
@@ -225,7 +234,12 @@ public class MainActivity extends AppCompatActivity
 
                             mAdapter.setRoutes(routes);
                             mAdapter.notifyDataSetChanged();
+                        } else {
+                            Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.no_rides), Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
+
+                        mLoading.dismiss();
                     }
 
                     @Override
@@ -271,8 +285,12 @@ public class MainActivity extends AppCompatActivity
         request.setUserOwner(route.getOwner());
         request.setUserOwnerUid(route.getOwnerUid());
         request.setUserRequest(Session.getUser(this));
+        request.setUserRequestUid(Session.getUser(this).getUid());
 
         mDatabase.getReference().child("requests").child(request.getUid()).setValue(request);
+
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.success), Snackbar.LENGTH_LONG);
+        snackbar.show();
 
         new NotificationAsync(this).execute(params);
     }

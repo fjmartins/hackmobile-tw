@@ -49,41 +49,61 @@ public class RequestRideHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void bind(final Activity activity, final Request request, final OnItemRequestListener rejectListener, final OnItemRequestListener acceptListener) {
+    public void bind(final Activity activity, final boolean solicitados, final Request request, final OnItemRequestListener rejectListener, final OnItemRequestListener acceptListener) {
         txtFrom.setText(request.getRoute().getFrom().getName());
         txtTo.setText(request.getRoute().getTo().getName());
         txtTime.setText(request.getRoute().getTime());
-        txtRouteDriver.setText(request.getUserRequest().getName());
 
-        if (request.getStatus() == 0) {
-            mReject.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    rejectListener.onItemClick(request);
-                }
-            });
-            mAccept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    acceptListener.onItemClick(request);
-                }
-            });
+        if (solicitados)
+            txtRouteDriver.setText(request.getUserOwner().getName());
+        else
+            txtRouteDriver.setText(request.getUserRequest().getName());
 
-            mReject.setVisibility(View.VISIBLE);
-            mAccept.setVisibility(View.VISIBLE);
+        if (solicitados && request.getStatus() == 0) {
+            mReject.setVisibility(View.GONE);
+            mAccept.setVisibility(View.GONE);
             mCall.setVisibility(View.GONE);
-        } else {
+        } else if (solicitados && request.getStatus() == 1) {
             mReject.setVisibility(View.GONE);
             mAccept.setVisibility(View.GONE);
             mCall.setVisibility(View.VISIBLE);
-            mCall.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent1 = new Intent(Intent.ACTION_DIAL);
-                    intent1.setData(Uri.parse("tel:" + request.getUserRequest().getPhone()));
-                    activity.startActivity(intent1);
-                }
-            });
         }
+
+        if (!solicitados) {
+            if (request.getStatus() == 0) {
+                mReject.setVisibility(View.VISIBLE);
+                mAccept.setVisibility(View.VISIBLE);
+                mCall.setVisibility(View.GONE);
+            } else {
+                mReject.setVisibility(View.GONE);
+                mAccept.setVisibility(View.GONE);
+                mCall.setVisibility(View.VISIBLE);
+            }
+        }
+
+        mReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rejectListener.onItemClick(request);
+            }
+        });
+        mAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                acceptListener.onItemClick(request);
+            }
+        });
+
+        mCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(Intent.ACTION_DIAL);
+                if (solicitados)
+                    intent1.setData(Uri.parse("tel:" + request.getUserOwner().getPhone()));
+                else
+                    intent1.setData(Uri.parse("tel:" + request.getUserRequest().getPhone()));
+                activity.startActivity(intent1);
+            }
+        });
     }
 }

@@ -73,8 +73,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Route r = (Route) data.getSerializableExtra("route");
-        drawRoute(r, r.getFrom(), r.getTo());
+        if (data != null && data.hasExtra("route")) {
+            Route r = (Route) data.getSerializableExtra("route");
+            drawRoute(r, r.getFrom(), r.getTo());
+        }
     }
 
     public void readAll() {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SafeRide</string>
+    <string name="app_name">Safe Ride</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -33,4 +33,6 @@
     <string name="loading">Carregando...</string>
     <string name="pedidos_carona">Pedidos de Carona</string>
     <string name="phone">Telefone</string>
+    <string name="no_rides">Nenhum resultado</string>
+    <string name="success">Enviado com sucesso</string>
 </resources>

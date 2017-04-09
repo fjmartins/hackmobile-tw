@@ -33,6 +33,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = null;
         if (remoteMessage.getNotification().getTag().equals("requestRoute")) {
             intent = new Intent(this, RequestRidesActivity.class);
+        } else if (remoteMessage.getNotification().getTag().equals("acceptRequest")) {
+            intent = new Intent(this, RequestRidesActivity.class);
         } else {
             intent = new Intent(this, MainActivity.class);
         }
@@ -47,14 +49,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
-        Intent intent1 = new Intent(Intent.ACTION_DIAL);
+        /*Intent intent1 = new Intent(Intent.ACTION_DIAL);
         intent1.setData(Uri.parse("tel:" + remoteMessage.getNotification().getColor()));
 
         PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (remoteMessage.getNotification().getTag().equals("acceptRequest")) {
             notificationBuilder.addAction(R.drawable.ic_call_black_24dp, "Ligar", pendingIntent1);
-        }
+        }*/
 
         NotificationManager notificationManager =
                 (NotificationManager)
