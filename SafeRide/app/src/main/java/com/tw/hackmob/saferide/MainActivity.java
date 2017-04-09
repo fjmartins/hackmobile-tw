@@ -152,6 +152,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.navAdicionarRota) {
             Intent intent = new Intent(MainActivity.this, MapActivity.class);
             startActivityForResult(intent, ADD_NEW_ROUTE);
+        } else if (id == R.id.navRequests) {
+            Intent intent = new Intent(MainActivity.this, RequestRidesActivity.class);
+            startActivity(intent);
         } else if (id == R.id.logout) {
             FirebaseAuth.getInstance().signOut();
 

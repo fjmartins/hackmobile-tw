@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.tw.hackmob.saferide.R;
 import com.tw.hackmob.saferide.listener.OnItemClickListener;
+import com.tw.hackmob.saferide.listener.OnItemRequestListener;
 import com.tw.hackmob.saferide.model.Request;
 import com.tw.hackmob.saferide.model.Route;
 
@@ -42,22 +43,22 @@ public class RequestRideHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void bind(final Request request, final View.OnClickListener rejectListener, final View.OnClickListener acceptListener) {
+    public void bind(final Request request, final OnItemRequestListener rejectListener, final OnItemRequestListener acceptListener) {
         txtFrom.setText(request.getRoute().getFrom().getName());
         txtTo.setText(request.getRoute().getTo().getName());
         txtTime.setText(request.getRoute().getTime());
-        txtRouteDriver.setText(request.getRoute().getOwner().getName());
+        txtRouteDriver.setText(request.getUserRequest().getName());
 
         mReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rejectListener.onClick(v);
+                rejectListener.onItemClick(request);
             }
         });
         mAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                acceptListener.onClick(v);
+                acceptListener.onItemClick(request);
             }
         });
     }

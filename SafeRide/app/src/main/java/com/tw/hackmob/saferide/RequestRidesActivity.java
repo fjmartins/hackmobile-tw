@@ -12,7 +12,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tw.hackmob.saferide.adapter.RequestRideAdapter;
 import com.tw.hackmob.saferide.adapter.RouteAdapter;
+import com.tw.hackmob.saferide.async.NotificationAsync;
 import com.tw.hackmob.saferide.listener.OnItemClickListener;
+import com.tw.hackmob.saferide.listener.OnItemRequestListener;
 import com.tw.hackmob.saferide.model.Request;
 import com.tw.hackmob.saferide.model.Route;
 import com.tw.hackmob.saferide.utils.Session;
@@ -44,7 +46,8 @@ public class RequestRidesActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot requestSnapshop: dataSnapshot.getChildren()) {
                     Request request = requestSnapshop.getValue(Request.class);
-                    mRequests.add(request);
+                    if (request.getStatus() == 0)
+                        mRequests.add(request);
                 }
 
                 mAdapter.notifyDataSetChanged();
@@ -56,15 +59,49 @@ public class RequestRidesActivity extends AppCompatActivity {
             }
         });
 
-        mAdapter = new RequestRideAdapter(mRequests, new View.OnClickListener() {
+        mAdapter = new RequestRideAdapter(mRequests, new OnItemRequestListener() {
             @Override
-            public void onClick(View view) {
+            public void onItemClick(Request request) {
+                request.setStatus(1);
+                mDatabase.getReference().child("requests").child(request.getUid()).child("status").setValue(request.getStatus());
 
+                String[] params = new String[] {
+                        request.getUserRequest().getToken(),
+                        "Pedido de Carona",
+                        request.getUserOwner().getName() + " aceitou seu pedido de carona!",
+                        "acceptRequest"
+                };
+
+                for (int i = 0; i < mRequests.size(); i++) {
+                    if (mRequests.get(i).getUid().equals(request.getUid())) {
+                        mRequests.remove(i);
+                        break;
+                    }
+                }
+
+                new NotificationAsync(RequestRidesActivity.this).execute(params);
             }
-        }, new View.OnClickListener() {
+        }, new OnItemRequestListener() {
             @Override
-            public void onClick(View view) {
+            public void onItemClick(Request request) {
+                request.setStatus(2);
+                mDatabase.getReference().child("requests").child(request.getUid()).child("status").setValue(request.getStatus());
 
+                String[] params = new String[] {
+                        request.getUserRequest().getToken(),
+                        "Pedido de Carona",
+                        request.getUserOwner().getName() + " rejeitou seu pedido de carona!",
+                        "rejectRequest"
+                };
+
+                for (int i = 0; i < mRequests.size(); i++) {
+                    if (mRequests.get(i).getUid().equals(request.getUid())) {
+                        mRequests.remove(i);
+                        break;
+                    }
+                }
+
+                new NotificationAsync(RequestRidesActivity.this).execute(params);
             }
         });
         mRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

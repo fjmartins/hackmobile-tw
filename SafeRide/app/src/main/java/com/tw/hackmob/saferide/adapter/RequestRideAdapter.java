@@ -9,6 +9,7 @@ import com.tw.hackmob.saferide.R;
 import com.tw.hackmob.saferide.holder.RequestRideHolder;
 import com.tw.hackmob.saferide.holder.RouteHolder;
 import com.tw.hackmob.saferide.listener.OnItemClickListener;
+import com.tw.hackmob.saferide.listener.OnItemRequestListener;
 import com.tw.hackmob.saferide.model.Request;
 import com.tw.hackmob.saferide.model.Route;
 
@@ -21,10 +22,10 @@ import java.util.List;
 
 public class RequestRideAdapter extends RecyclerView.Adapter<RequestRideHolder> {
 
-    private View.OnClickListener mListenerAccept, mListenerReject;
+    private OnItemRequestListener mListenerAccept, mListenerReject;
     private List<Request> mList = new ArrayList<>();
 
-    public RequestRideAdapter(List<Request> list, View.OnClickListener listenerAccept, View.OnClickListener listenerReject) {
+    public RequestRideAdapter(List<Request> list, OnItemRequestListener listenerAccept, OnItemRequestListener listenerReject) {
         mList = list;
         mListenerAccept = listenerAccept;
         mListenerReject = listenerReject;

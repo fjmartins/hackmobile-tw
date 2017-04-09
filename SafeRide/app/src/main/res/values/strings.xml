@@ -31,4 +31,5 @@
     <string name="forWhere">Para onde?</string>
     <string name="logout">Sair</string>
     <string name="loading">Carregando...</string>
+    <string name="pedidos_carona">Pedidos de Carona</string>
 </resources>
