@@ -1,22 +1,35 @@
 package com.tw.hackmob.saferide;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.TimePicker;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
-public class NewRouteActivity extends AppCompatActivity {
+import java.util.Calendar;
 
-    private TextInputEditText tietFrom;
-    private TextInputEditText tietTo;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class NewRouteActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener{
+
+    @BindView(R.id.from)
+    TextInputEditText tietFrom;
+
+    @BindView(R.id.to)
+    TextInputEditText tietTo;
+
+    @BindView(R.id.hora)
+    TextInputEditText tietHora;
 
     private final int FROM = 2;
     private final int TO = 3;
@@ -26,21 +39,11 @@ public class NewRouteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_route);
+        ButterKnife.bind(this);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.adicionar_rota));
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        tietFrom = (TextInputEditText) findViewById(R.id.from);
-        tietTo = (TextInputEditText) findViewById(R.id.to);
-
-        tietFrom.setFocusable(false);
-        tietFrom.setFocusableInTouchMode(false);
-        tietFrom.setClickable(true);
-
-        tietTo.setFocusable(false);
-        tietTo.setFocusableInTouchMode(false);
-        tietTo.setClickable(true);
 
         tietFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +66,7 @@ public class NewRouteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     Intent intent =
-                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
                                     .build(NewRouteActivity.this);
                     startActivityForResult(intent, TO);
                 } catch (GooglePlayServicesRepairableException e) {
@@ -71,6 +74,17 @@ public class NewRouteActivity extends AppCompatActivity {
                 } catch (GooglePlayServicesNotAvailableException e) {
                     // TODO: Solucionar o erro.
                 }
+            }
+        });
+
+        tietHora.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar time = Calendar.getInstance();
+                int hour = time.get(Calendar.HOUR_OF_DAY);
+                int minute = time.get(Calendar.MINUTE);
+                TimePickerDialog mTimerPickerDialog = new TimePickerDialog(NewRouteActivity.this, NewRouteActivity.this, hour, minute, true);
+                mTimerPickerDialog.show();
             }
         });
     }
@@ -90,5 +104,10 @@ public class NewRouteActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        tietHora.setText(hourOfDay + ":" + minute);
     }
 }
